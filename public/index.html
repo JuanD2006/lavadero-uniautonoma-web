@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lavadero Uniautónoma</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%230e6ba8' d='M12 2C12 2 5 10 5 15a7 7 0 0 0 14 0c0-5-7-13-7-13z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="top__inner">
+    <div class="brand">
+      <svg class="brand__logo" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2C12 2 5 10 5 15a7 7 0 0 0 14 0c0-5-7-13-7-13z"/>
+        <path class="shine" d="M9 15a3 3 0 0 0 3 3" />
+      </svg>
+      <div>
+        <h1>Lavadero Uniautónoma</h1>
+        <p>Programa de fidelidad · la lavada 11 es gratis</p>
+      </div>
+      <div class="user" id="user-box" hidden>
+        <span class="user__name" id="user-nombre"></span>
+        <span class="badge badge--rol" id="user-rol"></span>
+        <button class="btn btn--sm btn--light" id="btn-clave" type="button">Cambiar contraseña</button>
+        <button class="btn btn--sm btn--light" id="btn-salir" type="button">Salir</button>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button class="tab is-active" data-view="estudiantes">Estudiantes</button>
+      <button class="tab" data-view="vehiculos">Vehículos</button>
+      <button class="tab solo-admin" data-view="lavar">Registrar lavado</button>
+      <button class="tab" data-view="historial">Historial</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ESTUDIANTES -->
+  <section id="view-estudiantes" class="view is-active">
+    <div class="grid">
+      <form id="form-estudiante" class="card solo-admin" autocomplete="off">
+        <h2>Registrar estudiante</h2>
+        <label>Nombre completo
+          <input name="nombre" required placeholder="Ej: Juan Pérez">
+        </label>
+        <div class="row">
+          <label>Código estudiantil
+            <input name="codigo" required placeholder="Ej: 20231001">
+          </label>
+          <label>Teléfono
+            <input name="telefono" placeholder="Opcional">
+          </label>
+        </div>
+        <label>Correo
+          <input name="correo" type="email" required placeholder="usuario@uniautonoma.edu.co">
+        </label>
+        <label>Programa
+          <input name="programa" required placeholder="Ej: Ingeniería de Sistemas">
+        </label>
+        <button class="btn btn--primary" type="submit">Guardar estudiante</button>
+      </form>
+
+      <div class="card card--wide">
+        <div class="card__head">
+          <h2>Estudiantes</h2>
+          <form id="filtro-estudiantes" class="inline">
+            <input name="programa" placeholder="Filtrar por programa…">
+            <button class="btn" type="submit">Filtrar</button>
+            <button class="btn btn--ghost" type="reset">Limpiar</button>
+          </form>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Código</th><th>Nombre</th><th>Programa</th><th class="num">Lavadas</th><th></th></tr>
+            </thead>
+            <tbody id="tabla-estudiantes"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VEHICULOS -->
+  <section id="view-vehiculos" class="view">
+    <div class="grid">
+      <form id="form-vehiculo" class="card solo-admin" autocomplete="off">
+        <h2>Registrar vehículo</h2>
+        <label>Estudiante (dueño)
+          <select name="estudiante" id="veh-estudiante" required></select>
+        </label>
+        <div class="row">
+          <label>Placa
+            <input name="placa" required maxlength="8" placeholder="ABC123" style="text-transform:uppercase">
+          </label>
+          <label>Tipo
+            <select name="tipo" required>
+              <option value="carro">Carro</option>
+              <option value="moto">Moto</option>
+              <option value="camioneta">Camioneta</option>
+            </select>
+          </label>
+        </div>
+        <div class="row">
+          <label>Marca
+            <input name="marca" required placeholder="Ej: Chevrolet">
+          </label>
+          <label>Color
+            <input name="color" placeholder="Ej: Rojo">
+          </label>
+        </div>
+        <button class="btn btn--primary" type="submit">Guardar vehículo</button>
+      </form>
+
+      <div class="card card--wide">
+        <div class="card__head">
+          <h2>Vehículos</h2>
+          <form id="filtro-vehiculos" class="inline">
+            <input name="placa" placeholder="Buscar placa…">
+            <select name="tipo">
+              <option value="">Todos</option>
+              <option value="carro">Carro</option>
+              <option value="moto">Moto</option>
+              <option value="camioneta">Camioneta</option>
+            </select>
+            <button class="btn" type="submit">Buscar</button>
+            <button class="btn btn--ghost" type="reset">Limpiar</button>
+          </form>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Placa</th><th>Tipo</th><th>Marca</th><th>Color</th><th>Dueño</th><th></th></tr>
+            </thead>
+            <tbody id="tabla-vehiculos"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LAVAR -->
+  <section id="view-lavar" class="view">
+    <div class="grid grid--lavar">
+      <form id="form-lavado" class="card" autocomplete="off">
+        <h2>Registrar lavado</h2>
+        <label>Estudiante
+          <select id="lav-estudiante" required></select>
+        </label>
+        <label>Vehículo
+          <select id="lav-vehiculo" required disabled>
+            <option value="">Primero elige un estudiante</option>
+          </select>
+        </label>
+
+        <div class="field-title">Tipo de lavado</div>
+        <div class="tipos">
+          <label class="tipo">
+            <input type="radio" name="tipoLavado" value="basico" checked>
+            <span class="tipo__box">
+              <strong>Básico</strong>
+              <em id="precio-basico"></em>
+              <small>Exterior y secado</small>
+            </span>
+          </label>
+          <label class="tipo">
+            <input type="radio" name="tipoLavado" value="completo">
+            <span class="tipo__box">
+              <strong>Completo</strong>
+              <em id="precio-completo"></em>
+              <small>Exterior, interior y brillo</small>
+            </span>
+          </label>
+        </div>
+
+        <div class="resumen" id="lav-resumen">Elige un estudiante para ver el valor a cobrar.</div>
+        <button class="btn btn--primary" type="submit" id="lav-submit" disabled>Registrar lavado</button>
+      </form>
+
+      <div class="card">
+        <h2>Fidelidad del estudiante</h2>
+        <div id="lav-fidelidad" class="empty">Selecciona un estudiante para ver su progreso.</div>
+        <div id="lav-resultado"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORIAL (por buscador) -->
+  <section id="view-historial" class="view">
+    <div class="card">
+      <div class="card__head card__head--stack">
+        <h2>Historial de lavados</h2>
+        <p class="hint">Busca por <strong>nombre</strong>, <strong>código</strong> o <strong>placa</strong>. El historial no se muestra completo: solo aparece lo que buscas.</p>
+        <form id="filtro-historial" class="inline inline--wrap" autocomplete="off">
+          <label class="mini mini--grow">Buscar
+            <input type="search" name="q" id="his-q" placeholder="Ej: Ana, 20231001 o ABC123" aria-label="Buscar en el historial">
+          </label>
+          <label class="mini">Tipo de cobro
+            <select name="gratis">
+              <option value="">Todos</option>
+              <option value="false">Pagados</option>
+              <option value="true">Gratis</option>
+            </select>
+          </label>
+          <label class="mini">Desde
+            <input type="date" name="desde">
+          </label>
+          <label class="mini">Hasta
+            <input type="date" name="hasta">
+          </label>
+          <button class="btn btn--ghost" type="reset">Limpiar</button>
+        </form>
+      </div>
+
+      <div class="stats" id="his-stats"></div>
+      <div class="search-state" id="his-estado" role="status" aria-live="polite"></div>
+
+      <div class="table-wrap" id="his-tabla-wrap" hidden>
+        <table>
+          <thead>
+            <tr><th>Fecha</th><th>Estudiante</th><th>Vehículo</th><th>Tipo</th><th class="num">Valor</th><th>Cobro</th></tr>
+          </thead>
+          <tbody id="tabla-historial"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- MI CUENTA (solo rol estudiante) -->
+  <section id="view-cuenta" class="view">
+    <div class="card cuenta">
+      <h2>Mi fidelidad</h2>
+      <div id="cuenta-contenido" class="empty">Cargando…</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- LOGIN -->
+<div class="overlay overlay--login" id="login" hidden>
+  <div class="login-stack">
+
+    <!-- Iniciar sesión -->
+    <form class="modal login" id="form-login" autocomplete="on">
+      <div class="login__logo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C12 2 5 10 5 15a7 7 0 0 0 14 0c0-5-7-13-7-13z"/></svg>
+      </div>
+      <h3>Iniciar sesión</h3>
+      <p class="hint">Lavadero Uniautónoma</p>
+      <label>Usuario
+        <input name="usuario" autocomplete="username" required autofocus>
+      </label>
+      <label>Contraseña
+        <input name="password" type="password" autocomplete="current-password" required>
+      </label>
+      <p class="hint">Si el lavadero ya te registró, tu usuario es tu <strong>primer nombre</strong>.</p>
+      <div class="login__error" id="login-error" role="alert"></div>
+      <div class="login__ok" id="login-ok" role="status"></div>
+      <button class="btn btn--primary" type="submit" id="login-submit">Entrar</button>
+      <p class="login__switch">¿No tienes cuenta? <button type="button" class="link" id="ir-registro">Crear una cuenta</button></p>
+    </form>
+
+    <!-- Crear cuenta (estudiantes) -->
+    <form class="modal login" id="form-registro" autocomplete="on" hidden>
+      <div class="login__logo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C12 2 5 10 5 15a7 7 0 0 0 14 0c0-5-7-13-7-13z"/></svg>
+      </div>
+      <h3>Crear cuenta</h3>
+      <p class="hint">Tu nombre será tu usuario para entrar</p>
+      <label>Nombre completo
+        <input name="nombre" autocomplete="name" required minlength="2" maxlength="60" placeholder="Ej: Juan Pérez">
+      </label>
+      <label>Contraseña
+        <input name="password" type="password" autocomplete="new-password" required minlength="6" maxlength="100" placeholder="Mínimo 6 caracteres">
+      </label>
+      <label>Repite la contraseña
+        <input name="password2" type="password" autocomplete="new-password" required minlength="6" maxlength="100">
+      </label>
+      <div class="login__error" id="registro-error" role="alert"></div>
+      <button class="btn btn--primary" type="submit" id="registro-submit">Crear cuenta</button>
+      <p class="login__switch">¿Ya tienes cuenta? <button type="button" class="link" id="ir-login">Iniciar sesión</button></p>
+    </form>
+
+  </div>
+</div>
+
+<div id="toasts" aria-live="polite"></div>
+<script src="app.js"></script>
+</body>
+</html>

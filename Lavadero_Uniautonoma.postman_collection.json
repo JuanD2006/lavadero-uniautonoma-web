@@ -1,0 +1,630 @@
+{
+  "info": {
+    "name": "Lavadero Uniautónoma",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "estudianteId",
+      "value": ""
+    },
+    {
+      "key": "vehiculoId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "0. Login ADMIN (inicia sesión)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"usuario\": \"admin\",\n  \"password\": \"admin123\"\n}"
+        }
+      }
+    },
+    {
+      "name": "0b. Login LECTOR - solo lectura (inicia sesión)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"usuario\": \"lector\",\n  \"password\": \"lector123\"\n}"
+        }
+      }
+    },
+    {
+      "name": "0c. Quién soy (sesión actual)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/me",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "me"
+          ]
+        }
+      }
+    },
+    {
+      "name": "0d. Cerrar sesión (logout)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/logout",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "logout"
+          ]
+        }
+      }
+    },
+    {
+      "name": "0e. Registro de estudiante (crea cuenta)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/registro",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "registro"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Juan Pérez\",\n  \"password\": \"secreto1\"\n}"
+        }
+      }
+    },
+    {
+      "name": "0f. Login estudiante (usuario = nombre)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"usuario\": \"Juan Pérez\",\n  \"password\": \"secreto1\"\n}"
+        }
+      }
+    },
+    {
+      "name": "0g. Mi fidelidad (solo estudiante)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/mi-fidelidad",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "mi-fidelidad"
+          ]
+        }
+      }
+    },
+    {
+      "name": "0h. Cambiar contraseña (requiere sesión)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/cambiar-password",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "cambiar-password"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"passwordActual\": \"secreto1\",\n  \"passwordNueva\": \"nuevaClave123\"\n}"
+        }
+      }
+    },
+    {
+      "name": "1. Registrar estudiante",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/estudiantes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "estudiantes"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Laura Gómez\",\n  \"codigo\": \"20231001\",\n  \"correo\": \"laura@uniautonoma.edu.co\",\n  \"programa\": \"Ingeniería de Sistemas\",\n  \"telefono\": \"3001234567\"\n}"
+        }
+      }
+    },
+    {
+      "name": "2. Listar/filtrar estudiantes",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/estudiantes?programa=sistemas",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "estudiantes"
+          ],
+          "query": [
+            {
+              "key": "programa",
+              "value": "sistemas"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "3. Consultar estudiante",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/estudiantes/{{estudianteId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "estudiantes",
+            "{{estudianteId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. Actualizar estudiante",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/estudiantes/{{estudianteId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "estudiantes",
+            "{{estudianteId}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"telefono\": \"3109998877\",\n  \"correo\": \"laura.nuevo@uniautonoma.edu.co\"\n}"
+        }
+      }
+    },
+    {
+      "name": "5. Registrar vehículo",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/vehiculos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "vehiculos"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"placa\": \"ABC123\",\n  \"tipo\": \"carro\",\n  \"marca\": \"Mazda\",\n  \"color\": \"Rojo\",\n  \"estudiante\": \"{{estudianteId}}\"\n}"
+        }
+      }
+    },
+    {
+      "name": "6. Buscar vehículo por placa",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/vehiculos?placa=abc",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "vehiculos"
+          ],
+          "query": [
+            {
+              "key": "placa",
+              "value": "abc"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "7. Registrar lavado (fidelidad)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/lavados",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "lavados"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"estudiante\": \"{{estudianteId}}\",\n  \"vehiculo\": \"{{vehiculoId}}\",\n  \"tipoLavado\": \"basico\"\n}"
+        }
+      }
+    },
+    {
+      "name": "8. Consultar fidelidad",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/estudiantes/{{estudianteId}}/fidelidad",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "estudiantes",
+            "{{estudianteId}}",
+            "fidelidad"
+          ]
+        }
+      }
+    },
+    {
+      "name": "9. Historial por buscador (nombre, código o placa)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/lavados?q=ana&gratis=true",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "lavados"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "ana"
+            },
+            {
+              "key": "gratis",
+              "value": "true"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "10. Eliminar vehículo",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/vehiculos/{{vehiculoId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "vehiculos",
+            "{{vehiculoId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Extra: error 404 (id inexistente)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/estudiantes/64b000000000000000000000",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "estudiantes",
+            "64b000000000000000000000"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Extra: error 400 (datos inválidos)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/estudiantes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "estudiantes"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Sin datos\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Extra: historial SIN buscar (400, no lista todo)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/lavados",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "lavados"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Extra: sin sesión (401) - ejecutar después de cerrar sesión",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/estudiantes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "estudiantes"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Extra: lector intenta crear (403) - usar después del login de lector",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/estudiantes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "estudiantes"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Prueba\",\n  \"codigo\": \"999\",\n  \"correo\": \"p@p.co\",\n  \"programa\": \"X\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Extra: estudiante intenta ver estudiantes (403) - usar tras 0f",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/estudiantes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "estudiantes"
+          ]
+        }
+      }
+    }
+  ]
+}

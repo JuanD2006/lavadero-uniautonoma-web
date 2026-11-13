@@ -1,0 +1,16 @@
+{
+  "name": "lavadero-uniautonoma-api",
+  "version": "1.0.0",
+  "description": "API REST para programa de fidelización de lavadero de vehículos para estudiantes de la Universidad Autónoma del Cauca",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.5.1"
+  }
+}
